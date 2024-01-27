@@ -3,7 +3,8 @@ var app = new Vue({
     data: {
         userInput: '',
         state: 'init',
-        message: '',
+        answer: '',
+        explanation: '',
         image: 'image/goblin.jpg',
     },
     created: function () {
@@ -28,7 +29,8 @@ var app = new Vue({
             });
 
             this.state = "finish";
-            this.message = response.data;
+            this.answer = "=>" + response.data.answer;
+            this.explanation = "=>" + response.data.explanation;
         },
         playSe(fileName) {
             var sound = new Howl({
