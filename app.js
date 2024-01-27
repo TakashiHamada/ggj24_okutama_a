@@ -13,13 +13,12 @@ var app = new Vue({
             this.connectAip(this.userInput);
         },
         async connectAip(value) {
-            
-        let id = "AKfycbzpKsGZaKQ_-3zsv7j4UGKA3Gm9A3YUXe5OavIIGeMyXNms5s8-kKpxESn1fbmoFqd8Rw";
-        let url = "https://script.google.com/macros/s/" + id + "/exec";
+        let url = "http://demo.cotonoha.io:8000/homekotoba";
         
         const response = await axios.get(url, {
             params: {
-                a: value,
+                character: "goblin",
+                message: value,
             }
         });
         
