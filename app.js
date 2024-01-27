@@ -16,7 +16,8 @@ var app = new Vue({
             this.connectAip(this.userInput);
         },
         async connectAip(value) {
-            let url = "https://demo.cotonoha.io:8000/homekotoba";
+            
+            let url = "https://demo.cotonoha.io/ggj2024/homekotoba";
 
             const response = await axios.get(url, {
                 params: {
