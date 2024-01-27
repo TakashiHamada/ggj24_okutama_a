@@ -5,12 +5,14 @@
     <title>ggj24_okutama_a</title>
 </head>
 <body>
-<main id="app" class="">
-    <input v-model="userInput" 
-         @keyup.enter="handleEnter" 
-         placeholder="入力">
-    <p>state: {{ state }}</p>
-    <p>=> {{ message }}</p>
+<main id="app" class="p-4 max-w-md mx-auto">
+    <input v-model="userInput"
+           @keyup.enter="handleEnter"
+           placeholder="入力"
+           class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+    >
+    <p class="mt-4 text-sm text-gray-600">state: {{ state }}</p>
+    <p class="text-lg font-semibold text-gray-800">=> {{ message }}</p>
 </main>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
