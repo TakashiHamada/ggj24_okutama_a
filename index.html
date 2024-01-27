@@ -7,6 +7,7 @@
 </head>
 <body>
 <main id="app" class="p-4 max-w-md mx-auto">
+    <img :src="image" class="w-full">
     <input v-model="userInput"
            @keyup.enter="handleEnter"
            placeholder="入力"

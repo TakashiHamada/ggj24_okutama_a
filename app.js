@@ -4,6 +4,7 @@ var app = new Vue({
         userInput: '',
         state: 'init',
         message: '',
+        image: 'image/goblin.jpg',
     },
     created: function () {
     },
