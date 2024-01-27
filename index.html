@@ -8,8 +8,9 @@
 <main id="app" class="">
     <input v-model="userInput" 
          @keyup.enter="handleEnter" 
-         placeholder="テキストを入力し、Enterを押す">
-    <p>入力されたテキスト: {{ userInput }}</p>
+         placeholder="入力">
+    <p>state: {{ state }}</p>
+    <p>=> {{ message }}</p>
 </main>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
