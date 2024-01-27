@@ -5,6 +5,16 @@
     <title>ggj24_okutama_a</title>
 </head>
 <body>
-test
+<main id="app" class="">
+    <input v-model="userInput" 
+         @keyup.enter="handleEnter" 
+         placeholder="テキストを入力し、Enterを押す">
+    <p>入力されたテキスト: {{ userInput }}</p>
+</main>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script src="app.js"></script>
+
 </body>
 </html>
