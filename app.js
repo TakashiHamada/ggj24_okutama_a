@@ -16,6 +16,7 @@ var app = new Vue({
         messageIdx: 0,
         enemyIdx: 0,
         state: "init",
+        mode: "main_game",
     },
     computed: { // getter
     },
@@ -44,6 +45,7 @@ var app = new Vue({
 
                 // 完全クリア
                 if (2 < this.enemyIdx) {
+                    this.mode = "game_clear";
                     console.log("Completed!");
                     return;
                 } else {
@@ -90,8 +92,8 @@ var app = new Vue({
                 }
             });
 
-            this.answer = "=>" + response.data.answer;
-            this.explanation = "=>" + response.data.explanation;
+            this.answer = "💕 " + response.data.answer;
+            this.explanation = "🧚 " + response.data.explanation;
 
             // todo, tmp
             this.anger -= response.data.answer;
@@ -126,6 +128,7 @@ var app = new Vue({
         },
         async gameOver() {
             console.log("game over");
+            this.mode = "game_over";
             await this.delay(2);
             window.location.reload()
         },
