@@ -10,7 +10,7 @@ var app = new Vue({
         loadingMessage: '',
         enemy: 'goblin',
         anger: 100,
-        life: 110,
+        life: 500,
         inputDisable: true,
         waitForInputFlg: false,
         messageIdx: 0,
@@ -32,12 +32,16 @@ var app = new Vue({
             console.log("enemy");
             await this.enemyAttack();
             if (this.life < 0)
-                this.gameOver();
+                await this.gameOver(); // リロードされるので終了
             
             // player
             console.log("player");
             this.inputDisable = false;
             await this.waitForInput();
+            if (this.anger < 0) {
+                console.log("win!")
+                await this.gameOver();
+            }
         }
     },
     methods: {
@@ -72,6 +76,9 @@ var app = new Vue({
             this.state = "";
             this.answer = "=>" + response.data.answer;
             this.explanation = "=>" + response.data.explanation;
+            
+            // todo, tmp
+            this.anger -= response.data.answer;
         },
         playSe(fileName) {
             var sound = new Howl({
