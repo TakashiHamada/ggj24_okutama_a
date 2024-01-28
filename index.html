@@ -7,6 +7,7 @@
 </head>
 <body>
 <main id="app" class="p-4 max-w-md mx-auto">
+    <p class="mt-4 text-sm text-gray-600">{{ loadingMessage }}</p>
     <img :src="image" class="w-full">
     <div class="flex flex-wrap my-3">
         <p class="flex-1 text-blue-600">Life: {{ life }}</p>
@@ -17,7 +18,6 @@
            placeholder="入力"
            class="disabled:bg-gray-200 disabled:text-gray-500 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
     >
-    <p class="mt-4 text-sm text-gray-600">周囲: {{ loadingMessage }}</p>
     <p class="text-lg font-semibold text-gray-800">{{ answer }}</p>
     <p class="text-lg font-semibold text-gray-800">{{ explanation}}</p>
 </main>
