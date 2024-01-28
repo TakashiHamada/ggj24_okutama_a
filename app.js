@@ -1,24 +1,54 @@
 var app = new Vue({
     el: '#app',
     data: {
+        handleEnterPromise: null,
         userInput: '',
         state: 'init',
         answer: '',
         explanation: '',
         image: 'image/goblin.jpg',
-        loadingMessage: ''
+        loadingMessage: '',
+        enemy: 'goblin',
+        anger: 100,
+        life: 1000,
+        inputDisable: true,
+        waitForInputFlg: false,
     },
     computed: { // getter
     },
-    created: function () {
+    created: async function () {
+
         this.enemyDamageEffect(3);
+
+        while (true) {
+            // 初期化
+            this.userInput = "";
+            this.waitForInputFlg = false;
+            this.inputDisable= true;
+            
+            // enemy
+            console.log("enemy");
+            await this.enemyAttack();
+            
+            // player
+            console.log("player");
+            this.inputDisable = false;
+            await this.waitForInput();
+            
+        }
     },
     methods: {
-        handleEnter() {
+        async waitForInput() {
+            while (!this.waitForInputFlg) {
+                await this.delay(0.1);
+            }
+        },
+        async handleEnter() {
             this.playSe("cat");
-
             this.updateLoadingMessage();
-            this.connectAip(this.userInput);
+            await this.connectAip(this.userInput);
+
+            this.waitForInputFlg = true;
         },
         async connectAip(value) {
 
@@ -50,9 +80,13 @@ var app = new Vue({
             ];
             this.loadingMessage = messages[Math.floor(Math.random() * messages.length)];
         },
+        async enemyAttack() {
+            await this.delay(1);
+            this.life -= this.anger;
+        },
         async enemyDamageEffect(times = 0, interval = 0.05) {
             for (let time = 0; time < times; time++) {
-                    
+
                 this.image = 'image/goblin_damage.jpg';
                 await this.delay(interval);
                 this.image = 'image/goblin.jpg';
