@@ -10,7 +10,7 @@ var app = new Vue({
         loadingMessage: '',
         enemy: 'goblin',
         anger: 100,
-        life: 1000,
+        life: 110,
         inputDisable: true,
         waitForInputFlg: false,
         messageIdx: 0,
@@ -20,30 +20,31 @@ var app = new Vue({
     created: async function () {
 
         this.enemyDamageEffect(3);
-        
-        while (true) {
-            this.updateLoadingMessage();
-            await this.delay(5);
-        }
+        this.enemyMessageProcess();
 
         while (true) {
             // 初期化
             this.userInput = "";
             this.waitForInputFlg = false;
-            this.inputDisable= true;
-            
+            this.inputDisable = true;
+
             // enemy
             console.log("enemy");
             await this.enemyAttack();
-            
+
             // player
             console.log("player");
             this.inputDisable = false;
             await this.waitForInput();
-            
         }
     },
     methods: {
+        async enemyMessageProcess() {
+            while (true) {
+                this.updateLoadingMessage();
+                await this.delay(5);
+            }
+        },
         async waitForInput() {
             while (!this.waitForInputFlg) {
                 await this.delay(0.1);
@@ -79,11 +80,12 @@ var app = new Vue({
         },
         updateLoadingMessage() {
             let messages = [
-                "部長「誰が死ぬほど仕事してお前らを引っ張ってると思っているんだ！」\n"
-                + "社員「部長、ハイブランドの靴とかYシャツを着てても全員にスルーされたとか。似合ってないんで私ら笑っちゃったけど」",
-                "社員「上の人たちに仕事を評価されてないってキレてたなー。誰かほめてもいいんじゃない。私は嫌だけど」",
-                "部長「（スマホを観ながら）あああ～！ 早く帰ってきて犬の世話もやれだと！？ 会社の仕事が終わってないんだよ！」\n"
-                + "社員「ああみえて家庭のこともやっているみたい。意外だよね」"
+                "部長「誰が死ぬほど仕事してお前らを引っ張ってると思っているんだ！」",
+                "社員「部長、ハイブランドの靴とかYシャツを全員にスルーされたとか」",
+                "部長「常務はオレの仕事を無視してるのか！ふざけやがって！」",
+                "社員「上の人たちに仕事を評価されてないってキレてたな。部長」",
+                "部長「（スマホ観て）早く帰ってきて犬の世話もやれだと！？」",
+                "社員「ああみえて家庭のこともやっているみたい。意外だよね」",
             ];
             this.loadingMessage = messages[this.messageIdx % messages.length];
             this.messageIdx++;
@@ -93,7 +95,8 @@ var app = new Vue({
             this.life -= this.anger;
         },
         gameOver() {
-            console.log();
+            console.log("game over");
+            window.location.reload;
         },
         async enemyDamageEffect(times = 0, interval = 0.05) {
             for (let time = 0; time < times; time++) {
