@@ -31,7 +31,9 @@ var app = new Vue({
             // enemy
             console.log("enemy");
             await this.enemyAttack();
-
+            if (this.life < 0)
+                this.gameOver();
+            
             // player
             console.log("player");
             this.inputDisable = false;

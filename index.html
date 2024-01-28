@@ -7,8 +7,12 @@
 </head>
 <body>
 <main id="app" class="p-4 max-w-md mx-auto">
-    <p class="mt-4 text-sm text-gray-600">{{ loadingMessage }}</p>
-    <img :src="image" class="w-full">
+    <div class="relative">
+        <p class="absolute top-0 left-0 mt-4 text-sm text-gray-600 bg-white bg-opacity-75 p-1">
+            {{ loadingMessage }}
+        </p>
+        <img :src="image" class="w-full">
+    </div>
     <div class="flex flex-wrap my-3">
         <p class="flex-1 text-blue-600">Life: {{ life }}</p>
         <p class="flex-1 text-red-600">Enemy: {{ anger }}</p>
