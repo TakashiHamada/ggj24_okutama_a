@@ -96,9 +96,10 @@ var app = new Vue({
             await this.delay(1);
             this.life -= this.anger;
         },
-        gameOver() {
+        async gameOver() {
             console.log("game over");
-            window.location.reload;
+            await this.delay(1);
+            window.location.reload()
         },
         async enemyDamageEffect(times = 0, interval = 0.05) {
             for (let time = 0; time < times; time++) {
