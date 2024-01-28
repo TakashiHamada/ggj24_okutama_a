@@ -6,11 +6,11 @@ var app = new Vue({
         state: 'init',
         answer: '',
         explanation: '',
-        image: 'image/goblin.jpg',
+        image: '',
         loadingMessage: '',
-        enemy: 'goblin',
-        anger: 100,
-        life: 500,
+        enemy: '',
+        anger: 1,
+        life: 99,
         inputDisable: true,
         waitForInputFlg: false,
         messageIdx: 0,
@@ -18,9 +18,15 @@ var app = new Vue({
     computed: { // getter
     },
     created: async function () {
-
-        this.enemyDamageEffect(3);
-        this.enemyMessageProcess();
+        
+        console.log(enemies);
+        
+        this.enemy = enemies[0];
+        console.log(this.enemy);
+        this.anger = this.enemy.anger;
+        this.life = this.enemy.playerLife;
+        this.messages = this.enemy.messages;
+        this.image = "image/" + this.enemy.name + ".jpg";
 
         while (true) {
             // 初期化
@@ -68,7 +74,7 @@ var app = new Vue({
 
             const response = await axios.get(url, {
                 params: {
-                    character: "goblin",
+                    character: this.enemy.name,
                     message: value,
                 }
             });
@@ -79,6 +85,7 @@ var app = new Vue({
             
             // todo, tmp
             this.anger -= response.data.answer;
+            this.enemyDamageEffect(3);
         },
         playSe(fileName) {
             var sound = new Howl({
@@ -88,14 +95,15 @@ var app = new Vue({
             sound.play();
         },
         updateLoadingMessage() {
-            let messages = [
-                "部長「誰が死ぬほど仕事してお前らを引っ張ってると思っているんだ！」",
-                "社員「部長、ハイブランドの靴とかYシャツを全員にスルーされたとか」",
-                "部長「常務はオレの仕事を無視してるのか！ふざけやがって！」",
-                "社員「上の人たちに仕事を評価されてないってキレてたな。部長」",
-                "部長「（スマホ観て）早く帰ってきて犬の世話もやれだと！？」",
-                "社員「ああみえて家庭のこともやっているみたい。意外だよね」",
-            ];
+            // let messages = [
+            //     "部長「誰が死ぬほど仕事してお前らを引っ張ってると思っているんだ！」",
+            //     "社員「部長、ハイブランドの靴とかYシャツを全員にスルーされたとか」",
+            //     "部長「常務はオレの仕事を無視してるのか！ふざけやがって！」",
+            //     "社員「上の人たちに仕事を評価されてないってキレてたな。部長」",
+            //     "部長「（スマホ観て）早く帰ってきて犬の世話もやれだと！？」",
+            //     "社員「ああみえて家庭のこともやっているみたい。意外だよね」",
+            // ];
+            let messages = this.enemy.messages;
             this.loadingMessage = messages[this.messageIdx % messages.length];
             this.messageIdx++;
         },
@@ -111,9 +119,10 @@ var app = new Vue({
         async enemyDamageEffect(times = 0, interval = 0.05) {
             for (let time = 0; time < times; time++) {
 
-                this.image = 'image/goblin_damage.jpg';
+                let name = this.enemy.name;
+                this.image = "image/" + name + "_damage.jpg";
                 await this.delay(interval);
-                this.image = 'image/goblin.jpg';
+                this.image = "image/" + name + ".jpg";
                 await this.delay(interval);
             }
         },
