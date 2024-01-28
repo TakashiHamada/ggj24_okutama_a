@@ -14,39 +14,45 @@ var app = new Vue({
         inputDisable: true,
         waitForInputFlg: false,
         messageIdx: 0,
+        enemyIdx: 0,
+        state: "init",
     },
     computed: { // getter
     },
     created: async function () {
+
+        this.reset(this.enemyIdx);
         
-        console.log(enemies);
-        
-        this.enemy = enemies[0];
-        console.log(this.enemy);
-        this.anger = this.enemy.anger;
-        this.life = this.enemy.playerLife;
-        this.messages = this.enemy.messages;
-        this.image = "image/" + this.enemy.name + ".jpg";
+        this.enemyMessageProcess();
 
         while (true) {
             // 初期化
-            this.userInput = "";
             this.waitForInputFlg = false;
-            this.inputDisable = true;
 
             // enemy
-            console.log("enemy");
+            this.state = "👹 敵の攻撃";
             await this.enemyAttack();
             if (this.life < 0)
                 await this.gameOver(); // リロードされるので終了
-            
+
             // player
-            console.log("player");
+            this.state = "😊 あなたのターン";
             this.inputDisable = false;
+            this.userInput = "";
             await this.waitForInput();
             if (this.anger < 0) {
+                this.enemyIdx++;
+                
+                // 完全クリア
+                if (2 < this.enemyIdx)
+                {
+                    console.log("Completed!");
+                    return;
+                }
+                
+                this.enemy = enemies[this.enemyIdx];
+                this.reset(this.enemyIdx);
                 console.log("win!")
-                await this.gameOver();
             }
         }
     },
@@ -64,8 +70,8 @@ var app = new Vue({
         },
         async handleEnter() {
             this.playSe("cat");
+            this.inputDisable = true;
             await this.connectAip(this.userInput);
-
             this.waitForInputFlg = true;
         },
         async connectAip(value) {
@@ -79,10 +85,9 @@ var app = new Vue({
                 }
             });
 
-            this.state = "";
             this.answer = "=>" + response.data.answer;
             this.explanation = "=>" + response.data.explanation;
-            
+
             // todo, tmp
             this.anger -= response.data.answer;
             this.enemyDamageEffect(3);
@@ -95,20 +100,19 @@ var app = new Vue({
             sound.play();
         },
         updateLoadingMessage() {
-            // let messages = [
-            //     "部長「誰が死ぬほど仕事してお前らを引っ張ってると思っているんだ！」",
-            //     "社員「部長、ハイブランドの靴とかYシャツを全員にスルーされたとか」",
-            //     "部長「常務はオレの仕事を無視してるのか！ふざけやがって！」",
-            //     "社員「上の人たちに仕事を評価されてないってキレてたな。部長」",
-            //     "部長「（スマホ観て）早く帰ってきて犬の世話もやれだと！？」",
-            //     "社員「ああみえて家庭のこともやっているみたい。意外だよね」",
-            // ];
             let messages = this.enemy.messages;
             this.loadingMessage = messages[this.messageIdx % messages.length];
             this.messageIdx++;
         },
+        reset(idx) {
+            this.enemy = enemies[idx];
+            this.anger = this.enemy.anger;
+            this.life = this.enemy.playerLife;
+            this.messages = this.enemy.messages;
+            this.image = "image/" + this.enemy.name + ".jpg";
+        },
         async enemyAttack() {
-            await this.delay(1);
+            await this.delay(2);
             this.life -= this.anger;
         },
         async gameOver() {

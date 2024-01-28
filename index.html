@@ -17,6 +17,7 @@
         <p class="flex-1 text-blue-600">Life: {{ life }}</p>
         <p class="flex-1 text-red-600">Enemy: {{ anger }}</p>
     </div>
+    <p class="text-lg font-semibold text-gray-800">{{ state }}</p>
     <input v-model="userInput" :disabled="inputDisable"
            @keydown.shift.enter="handleEnter"
            placeholder="入力"
