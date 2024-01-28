@@ -11,10 +11,10 @@ var app = new Vue({
     computed: { // getter
     },
     created: function () {
+        this.enemyDamageEffect(3);
     },
     methods: {
         handleEnter() {
-
             this.playSe("cat");
 
             this.updateLoadingMessage();
@@ -49,6 +49,20 @@ var app = new Vue({
                 "loadingMessage_C"
             ];
             this.loadingMessage = messages[Math.floor(Math.random() * messages.length)];
+        },
+        async enemyDamageEffect(times = 0, interval = 0.05) {
+            for (let time = 0; time < times; time++) {
+                    
+                this.image = 'image/goblin_damage.jpg';
+                await this.delay(interval);
+                this.image = 'image/goblin.jpg';
+                await this.delay(interval);
+            }
+        },
+        delay(n) {
+            return new Promise(function (resolve) {
+                setTimeout(resolve, n * 1000);
+            });
         }
     }
 })
