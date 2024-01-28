@@ -123,8 +123,8 @@ var app = new Vue({
         async enemyAttack() {
             await this.delay(1);
             this.playSe("enemy_attack");
-            await this.delay(1.5);
             this.life -= this.anger;
+            await this.delay(1.5);
         },
         async gameOver() {
             console.log("game over");
