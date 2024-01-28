@@ -18,11 +18,19 @@
         <p class="flex-1 text-red-600">Enemy: {{ anger }}</p>
     </div>
     <p class="text-lg font-semibold text-gray-800">{{ state }}</p>
-    <input v-model="userInput" :disabled="inputDisable"
-           @keydown.shift.enter="handleEnter"
-           placeholder="褒めろ！おだてろ！"
-           class="disabled:bg-gray-200 disabled:text-gray-500 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
-    >
+
+    <div class="flex">
+        <input v-model="userInput" :disabled="inputDisable"
+               @keydown.shift.enter="handleEnter"
+               placeholder="褒めろ！おだてろ！"
+               class="disabled:bg-gray-200 disabled:text-gray-500 flex-grow p-2 border border-r-0 border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+        >
+        <button @click="handleEnter"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-md">
+            → 
+        </button>
+    </div>
+    
     <p class="text-lg font-semibold text-gray-800">{{ answer }}</p>
     <p class="text-lg font-semibold text-gray-800">{{ explanation}}</p>
 </main>
