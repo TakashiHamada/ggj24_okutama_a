@@ -38,7 +38,7 @@ var app = new Vue({
 
                 this.image = "image/" + this.enemy.name + "_laugh.jpg";
                 this.playSe("Winnig_Laugh");
-                await this.delay(3);
+                await this.delay(5);
 
                 this.enemyIdx++;
 
@@ -48,7 +48,6 @@ var app = new Vue({
                     return;
                 } else {
                     // 次のステージへ
-                    this.enemy = enemies[this.enemyIdx];
                     this.reset(this.enemyIdx);
                     continue;
                 }
@@ -117,7 +116,7 @@ var app = new Vue({
             this.messages = this.enemy.messages;
             this.image = "image/" + this.enemy.name + ".jpg";
             this.answer = "";
-            this.message = "";
+            this.explanation = "";
         },
         async enemyAttack() {
             await this.delay(1);
