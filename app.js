@@ -22,18 +22,12 @@ var app = new Vue({
     created: async function () {
 
         this.reset(this.enemyIdx);
-        
+
         this.enemyMessageProcess();
 
         while (true) {
             // 初期化
             this.waitForInputFlg = false;
-
-            // enemy
-            this.state = "👹 敵の攻撃";
-            await this.enemyAttack();
-            if (this.life < 0)
-                await this.gameOver(); // リロードされるので終了
 
             // player
             this.state = "😊 あなたのターン";
@@ -41,19 +35,30 @@ var app = new Vue({
             this.userInput = "";
             await this.waitForInput();
             if (this.anger < 0) {
+
+                this.image = "image/" + this.enemy.name + "_laugh.jpg";
+                this.playSe("Winnig_Laugh");
+                await this.delay(3);
+
                 this.enemyIdx++;
-                
+
                 // 完全クリア
-                if (2 < this.enemyIdx)
-                {
+                if (2 < this.enemyIdx) {
                     console.log("Completed!");
                     return;
+                } else {
+                    // 次のステージへ
+                    this.enemy = enemies[this.enemyIdx];
+                    this.reset(this.enemyIdx);
+                    continue;
                 }
-                
-                this.enemy = enemies[this.enemyIdx];
-                this.reset(this.enemyIdx);
-                console.log("win!")
             }
+
+            // enemy
+            this.state = "👹 敵の攻撃";
+            await this.enemyAttack();
+            if (this.life < 0)
+                await this.gameOver(); // リロードされるので終了
         }
     },
     methods: {
@@ -69,11 +74,11 @@ var app = new Vue({
             }
         },
         async handleEnter() {
+            this.answer = "loading...";
             this.playSe("Cheer_sound");
             this.inputDisable = true;
             await this.connectAip(this.userInput);
             this.waitForInputFlg = true;
-            this.answer = "loading...";
         },
         async connectAip(value) {
 
@@ -91,7 +96,7 @@ var app = new Vue({
 
             // todo, tmp
             this.anger -= response.data.answer;
-            this.enemyDamageEffect(3);
+            await this.enemyDamageEffect(3);
         },
         playSe(fileName) {
             var sound = new Howl({
@@ -111,6 +116,8 @@ var app = new Vue({
             this.life = this.enemy.playerLife;
             this.messages = this.enemy.messages;
             this.image = "image/" + this.enemy.name + ".jpg";
+            this.answer = "";
+            this.message = "";
         },
         async enemyAttack() {
             await this.delay(1);
@@ -120,7 +127,7 @@ var app = new Vue({
         },
         async gameOver() {
             console.log("game over");
-            await this.delay(1);
+            await this.delay(2);
             window.location.reload()
         },
         async enemyDamageEffect(times = 0, interval = 0.05) {
