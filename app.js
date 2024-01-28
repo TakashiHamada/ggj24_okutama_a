@@ -69,10 +69,11 @@ var app = new Vue({
             }
         },
         async handleEnter() {
-            this.playSe("cat");
+            this.playSe("Cheer_sound");
             this.inputDisable = true;
             await this.connectAip(this.userInput);
             this.waitForInputFlg = true;
+            this.answer = "loading...";
         },
         async connectAip(value) {
 
@@ -112,7 +113,9 @@ var app = new Vue({
             this.image = "image/" + this.enemy.name + ".jpg";
         },
         async enemyAttack() {
-            await this.delay(2);
+            await this.delay(1);
+            this.playSe("enemy_attack");
+            await this.delay(1.5);
             this.life -= this.anger;
         },
         async gameOver() {
